@@ -1,0 +1,2493 @@
+📁 PROJECT STRUCTURE
+================================================================================
+
+tivan-ex
+├── .env.local
+├── README.md
+├── TIVAN_ROADMAP.md
+├── app
+│   ├── dashboard
+│   │   └── page.tsx
+│   ├── deposit
+│   │   └── page.tsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── login
+│   │   └── page.tsx
+│   ├── markets
+│   │   ├── [id]
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── not-found.tsx
+│   ├── page.tsx
+│   ├── register
+│   │   └── page.tsx
+│   └── trade
+│       └── page.tsx
+├── components
+│   ├── landing
+│   │   ├── Hero.tsx
+│   │   └── MarketList.tsx
+│   ├── layout
+│   │   ├── Footer.tsx
+│   │   └── Header.tsx
+│   └── market
+│       └── TradingChart.tsx
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── public
+│   └── logo.svg
+├── tailwind.config.ts
+├── tsconfig.json
+└── utils
+    └── supabase
+        └── client.ts
+
+
+📄 FILE CONTENTS
+================================================================================
+
+================================================================================
+📄 FILE: eslint.config.mjs
+================================================================================
+
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+    ],
+  },
+];
+
+export default eslintConfig;
+
+================================================================================
+📄 FILE: next-env.d.ts
+================================================================================
+
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+/// <reference path="./.next/types/routes.d.ts" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+================================================================================
+📄 FILE: next.config.ts
+================================================================================
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+
+================================================================================
+📄 FILE: package.json
+================================================================================
+
+{
+  "name": "tivan-ex",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.89.0",
+    "@tanstack/react-query": "^5.90.12",
+    "axios": "^1.13.2",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.26",
+    "lightweight-charts": "^5.1.0",
+    "lucide-react": "^0.562.0",
+    "next": "15.5.9",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^3.4.0",
+    "viem": "^2.43.3",
+    "wagmi": "^3.1.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+
+================================================================================
+📄 FILE: postcss.config.mjs
+================================================================================
+
+const config = {
+  plugins: ["@tailwindcss/postcss"],
+};
+
+export default config;
+
+================================================================================
+📄 FILE: README.md
+================================================================================
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+================================================================================
+📄 FILE: tailwind.config.ts
+================================================================================
+
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}", // 👈 این خط حیاتی بود که نبود!
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
+================================================================================
+📄 FILE: TIVAN_ROADMAP.md
+================================================================================
+
+🚀 TivanEx Strategic Roadmap v2.0 (سند راهبردی جامع تیوان اکس)Project Name: TivanEx (CEX Platform)Vision: ساخت پیشرفته‌ترین، سریع‌ترین و امن‌ترین صرافی ارز دیجیتال ایران با استاندارد جهانی.Current State: MVP Frontend Complete (آماده اتصال به بک‌اند)Infrastructure Strategy: Free-Tier First (Vercel + Supabase) $\rightarrow$ Enterprise Later (Dedicated Servers).🏗 Tech Stack (تکنولوژی‌های مورد استفاده)1. Frontend (رابط کاربری - وضعیت: عالی)Core: Next.js 15 (App Router) - پیاده‌سازی شدهStyling: Tailwind CSS v4 - پیاده‌سازی شدهAnimations: CSS Animations & Transitions - پیاده‌سازی شدهCharts: Lightweight Charts (v5) - پیاده‌سازی شدهIcons: Lucide React - پیاده‌سازی شده2. Backend & Data (زیرساخت فعلی - Free Tier)Database: Supabase (PostgreSQL) - رایگان و قدرتمند.Authentication: Supabase Auth (ایمیل/پسورد + گوگل) - رایگان.Realtime Data: Supabase Realtime (جایگزین موقت WebSocket سرور اختصاصی).API Logic: Next.js API Routes (Serverless Functions) - روی Vercel اجرا می‌شود.Image Storage: Supabase Storage (برای مدارک احراز هویت).3. Future Scalability (فاز توسعه آینده - نیازمند بودجه/سرور)این بخش‌ها طبق گزارش مهندسی، پس از جذب سرمایه اضافه می‌شوند:Matching Engine: Rust (High-Performance).WebSocket Server: Go (Dedicated).Infrastructure: Docker & Kubernetes (K8s).Caching: Redis (Dedicated).Security: HSM Integration (Hardware Security Module).🗺 Development Phases (مراحل توسعه)✅ Phase 0: Setup & Identity (تکمیل شده)[x] Project Initialization (Next.js 15)[x] Naming & Branding (TivanEx)[x] Project Structure Snapshot & Cleanup[x] Tailwind CSS v4 Configuration✅ Phase 1: Core UI & Layout (تکمیل شده)[x] طراحی صفحه لندینگ (Landing Page) با افکت‌های نوری (Hero Section).[x] پیاده‌سازی هدر (Header) و فوتر (Footer) سراسری.[x] لیست قیمت زنده در صفحه اصلی (Live Market List) با API کوین‌گکو.[x] طراحی صفحات احراز هویت (Login / Register UI).[x] پیاده‌سازی تم دارک (Dark Mode Only Strategy).✅ Phase 2: Market & Trading Interface (تکمیل شده)[x] ساخت کامپوننت نمودار تریدینگ (TradingChart) با Lightweight Charts.[x] طراحی صفحه جزئیات ارز (Dynamic Coin Page [id]).[x] طراحی صفحه بازارها (Markets) با قابلیت جستجو و فیلتر.[x] طراحی صفحه معامله حرفه‌ای (Trade Page) شامل:[x] Order Book UI[x] Trade Form UI[x] Chart Integration[x] طراحی صفحه داشبورد کاربری (Dashboard) با محاسبه دارایی لحظه‌ای.[x] طراحی صفحه ۴۰۴ اختصاصی (Not Found).🚧 Phase 3: Backend Integration & Logic (فاز بعدی - ما اینجا هستیم)هدف: زنده کردن دکمه‌ها و فرم‌ها با استفاده از Supabase (بدون هزینه سرور).[ ] Database Setup (Supabase):[ ] ساخت پروژه در Supabase.[ ] طراحی Schema دیتابیس (Users, Wallets, Orders, Transactions).[ ] تنظیم Row Level Security (RLS) برای امنیت داده‌ها.[ ] Authentication Implementation:[ ] اتصال فرم ثبت‌نام به Supabase Auth.[ ] اتصال فرم ورود به Supabase Auth.[ ] مدیریت Session کاربر در کل سایت (Middleware).[ ] ساخت صفحه "پروفایل کاربری" واقعی.[ ] Wallet Logic (Simulated):[ ] ساخت جدول کیف پول در دیتابیس.[ ] ایجاد قابلیت "واریز تستی" (تخصیص اعتبار مجازی برای تست ترید).[ ] Trading Engine (Serverless MVP):[ ] نوشتن API برای ثبت سفارش (Buy/Sell) در Next.js.[ ] نوشتن منطق ساده Matching (تطبیق سفارش) در دیتابیس (Function).[ ] نمایش سفارشات واقعی کاربر در داشبورد (نه دیتای ساختگی).⏳ Phase 4: Production & Deploymentهدف: انتشار سایت روی اینترنت.[ ] Deployment:[ ] اتصال پروژه به Vercel (هاستینگ رایگان).[ ] تنظیم متغیرهای محیطی (Environment Variables).[ ] Performance & SEO:[ ] تنظیم متا تگ‌ها (Metadata) برای گوگل.[ ] بهینه‌سازی تصاویر (Next/Image).[ ] تست سرعت سایت (Lighthouse).[ ] Security Basics:[ ] بررسی قوانین دسترسی (Middleware Protection).[ ] جلوگیری از حملات XSS/CSRF (توسط Next.js هندل می‌شود).🔒 Phase 5: Enterprise Upgrade (Post-Revenue / Funded)هدف: اجرای موارد گزارش مهندسی (سطح بین‌المللی) پس از جذب سرمایه.[ ] Migration: انتقال دیتابیس به سرورهای اختصاصی.[ ] Rust Engine: بازنویسی موتور معاملاتی با زبان Rust.[ ] Cold Storage: پیاده‌سازی سیستم کیف پول سرد چند امضایی.[ ] KYC: اتصال به سرویس‌های احراز هویت با هوش مصنوعی.[ ] CI/CD: راه‌اندازی پایپ‌لاین‌های تست خودکار (طبق گزارش Chat GPT).[ ] App: توسعه اپلیکیشن موبایل (React Native).🎨 Design System Guidelines (راهنمای طراحی)Colors:Primary: Emerald-500 (#10b981) - موفقیت/خریدSecondary: Rose-500 (#f43f5e) - خطا/فروشBackground: Slate-950 (#020617) - پس‌زمینه اصلیSurface: Slate-900 (#0f172a) - کارت‌ها و پنل‌هاTypography: فونت وزیرمتن (Vazirmatn) - استاندارد فارسی.UX Philosophy:Glassmorphism (افکت شیشه‌ای) برای حس مدرن.Glow Effects (افکت‌های نوری) برای جلب توجه.Mobile First (واکنش‌گرا بودن تمام صفحات).🛡 Security Rules (قوانین امنیتی پروژه)Zero Trust: هیچ دیتایی از سمت کاربر (Client) قابل اعتماد نیست و باید در سمت سرور (Server Actions/API) اعتبارسنجی شود.Private Keys: هیچ کلید خصوصی یا رمز عبور کاربری به صورت متنی (Plain Text) ذخیره نمی‌شود.Environment Variables: تمام کلیدهای API (مثل کلید Supabase Service Role) فقط در سمت سرور استفاده می‌شوند.No Direct DB Access: کلاینت هرگز مستقیم به دیتابیس کوئری نمی‌زند (مگر از طریق لایه امنیتی Supabase Client).
+================================================================================
+📄 FILE: tsconfig.json
+================================================================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+================================================================================
+📄 FILE: app\globals.css
+================================================================================
+
+@import "tailwindcss";
+
+@theme {
+  --font-vazir: var(--font-vazir);
+  
+  --color-background: #020617; /* Slate-950 */
+  --color-foreground: #f8fafc; /* Slate-50 */
+  
+  --color-primary: #10b981; /* Emerald-500 */
+  --color-secondary: #f43f5e; /* Rose-500 */
+}
+
+/* تنظیمات پایه */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-vazir), sans-serif;
+}
+================================================================================
+📄 FILE: app\layout.tsx
+================================================================================
+
+import type { Metadata } from "next";
+import { Vazirmatn } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer"; // 👈 ایمپورت فوتر جدید
+
+const vazir = Vazirmatn({
+  subsets: ["arabic"],
+  display: "swap",
+  variable: "--font-vazir",
+});
+
+export const metadata: Metadata = {
+  title: "تیوان اکس | صرافی امن ارز دیجیتال",
+  description: "تجربه سریع‌ترین و امن‌ترین معاملات ارز دیجیتال در ایران با تیوان اکس.",
+  icons: {
+    icon: "/logo.svg",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="fa" dir="rtl">
+      <body className={`${vazir.className} antialiased bg-slate-950 text-slate-50 selection:bg-emerald-500/30 selection:text-emerald-200 flex flex-col min-h-screen`}>
+        {/* هدر ثابت در بالا */}
+        <Header /> 
+        
+        {/* محتوای متغیر صفحات (با flex-grow پر کردن فضا) */}
+        <div className="flex-grow">
+          {children}
+        </div>
+
+        {/* فوتر ثابت در پایین */}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+================================================================================
+📄 FILE: app\not-found.tsx
+================================================================================
+
+"use client"; // 👈 این خط برای دکمه‌های تعاملی الزامی است
+
+import Link from "next/link";
+import { Home, MoveLeft } from "lucide-react";
+
+export default function NotFound() {
+  return (
+    <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+      
+      {/* افکت نوری پشت زمینه */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -z-10" />
+
+      {/* عدد 404 بزرگ */}
+      <h1 className="text-[150px] font-black text-transparent bg-clip-text bg-gradient-to-b from-slate-700 to-slate-900 leading-none select-none">
+        404
+      </h1>
+
+      <div className="space-y-6 relative -mt-10">
+        <h2 className="text-3xl font-bold text-white">
+          مسیر را گم کرده‌اید؟ 🌌
+        </h2>
+        <p className="text-slate-400 max-w-md mx-auto leading-7">
+          متاسفانه صفحه‌ای که به دنبال آن هستید در کهکشان تیوان اکس پیدا نشد. ممکن است آدرس تغییر کرده باشد یا حذف شده باشد.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-emerald-500/20"
+          >
+            <Home className="w-5 h-5" />
+            بازگشت به خانه
+          </Link>
+          
+          <button 
+            onClick={() => window.history.back()}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-8 py-3 rounded-xl font-medium transition-all border border-slate-700"
+          >
+            <MoveLeft className="w-5 h-5" />
+            بازگشت به قبل
+          </button>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\page.tsx
+================================================================================
+
+import Hero from "@/components/landing/Hero";
+import MarketList from "@/components/landing/MarketList";
+
+export default function Home() {
+  return (
+    <main className="flex flex-col min-h-screen bg-slate-950">
+      
+      {/* 1. بخش هیرو (ناسا!) */}
+      <Hero />
+
+      {/* 2. لیست قیمت‌های زنده (دیتای واقعی) */}
+      <MarketList />
+      
+      {/* فضای خالی فوتر */}
+      <div className="h-20"></div>
+
+    </main>
+  );
+}
+================================================================================
+📄 FILE: app\dashboard\page.tsx
+================================================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { createClient } from "@/utils/supabase/client";
+import { 
+  Wallet, ArrowUpRight, ArrowDownLeft, History, 
+  LogOut, Loader2, User, RefreshCw 
+} from "lucide-react";
+
+export default function DashboardPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [totalBalanceToman, setTotalBalanceToman] = useState(0); // موجودی کل به تومان
+  const [assets, setAssets] = useState<any[]>([]);
+  const [userName, setUserName] = useState("کاربر");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const supabase = createClient();
+      
+      // 1. چک کردن لاگین
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+      
+      if (user.user_metadata.full_name) {
+        setUserName(user.user_metadata.full_name);
+      }
+
+      // 2. دریافت کیف پول‌ها از دیتابیس (که الان صفر هستند)
+      const { data: wallets, error } = await supabase
+        .from("wallets")
+        .select("*");
+
+      if (error) throw error;
+
+      if (!wallets || wallets.length === 0) {
+        setLoading(false);
+        return;
+      }
+
+      // 3. دریافت قیمت تتر به تومان (فعلاً دستی، بعداً از API می‌گیریم)
+      const usdtPriceInToman = 60000; 
+
+      // 4. دریافت قیمت‌های جهانی
+      const symbolMap: {[key: string]: string} = {
+        'btc': 'bitcoin',
+        'eth': 'ethereum',
+        'usdt': 'tether',
+        'irt': 'irt' // تومان
+      };
+
+      const cryptoIds = wallets
+        .filter(w => w.currency !== 'irt' && w.currency !== 'usdt')
+        .map(w => symbolMap[w.currency])
+        .join(",");
+
+      let prices: any = {};
+      
+      if (cryptoIds) {
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/simple/price`,
+          { params: { ids: cryptoIds, vs_currencies: "usd" } }
+        );
+        prices = response.data;
+      }
+
+      let totalToman = 0;
+
+      // 5. محاسبه دارایی
+      const calculatedAssets = wallets.map(wallet => {
+        let priceInUsd = 0;
+        let priceInToman = 0;
+        let valueInToman = 0;
+
+        if (wallet.currency === 'irt') {
+          priceInToman = 1;
+          valueInToman = wallet.balance;
+        } else if (wallet.currency === 'usdt') {
+          priceInUsd = 1;
+          priceInToman = usdtPriceInToman;
+          valueInToman = wallet.balance * usdtPriceInToman;
+        } else {
+          const coinId = symbolMap[wallet.currency];
+          priceInUsd = prices[coinId]?.usd || 0;
+          priceInToman = priceInUsd * usdtPriceInToman;
+          valueInToman = wallet.balance * priceInToman;
+        }
+
+        totalToman += valueInToman;
+
+        return {
+          id: wallet.id,
+          symbol: wallet.currency.toUpperCase(),
+          amount: wallet.balance,
+          priceInToman,
+          valueInToman
+        };
+      });
+
+      setAssets(calculatedAssets);
+      setTotalBalanceToman(totalToman);
+      setLoading(false);
+
+    } catch (error) {
+      console.error("Error:", error);
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat("fa-IR").format(Math.floor(num));
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-950">
+        <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-950 pt-28 pb-10 px-4 sm:px-8 relative">
+      <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        {/* سایدبار */}
+        <aside className="lg:col-span-1 space-y-4">
+          <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl p-6 shadow-xl">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-white border border-slate-700">
+                <User className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold">{userName}</h3>
+                <span className="text-slate-500 text-xs">سطح: برنزی</span>
+              </div>
+            </div>
+            
+            <nav className="space-y-2">
+              <button className="w-full flex items-center gap-3 px-4 py-3 bg-emerald-600/10 text-emerald-400 rounded-xl font-medium border border-emerald-500/20">
+                <Wallet className="w-5 h-5" />
+                کیف پول من
+              </button>
+              <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all">
+                <LogOut className="w-5 h-5" />
+                خروج
+              </button>
+            </nav>
+          </div>
+        </aside>
+
+        {/* محتوای اصلی */}
+        <main className="lg:col-span-3 space-y-6">
+          
+          {/* کارت موجودی کل */}
+          <div className="bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 rounded-3xl p-8 relative overflow-hidden shadow-2xl">
+            <div className="relative z-10">
+              <span className="text-slate-400 text-sm mb-2 block">ارزش کل دارایی‌ها (تومان)</span>
+              <h1 className="text-5xl font-bold text-white font-mono tracking-tight mb-6">
+                {formatNumber(totalBalanceToman)} <span className="text-lg text-slate-500 font-normal">تومان</span>
+              </h1>
+
+              <div className="flex gap-4">
+                <button className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-xl transition-all">
+                  <ArrowDownLeft className="w-5 h-5" />
+                  واریز تومان
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* لیست کیف پول‌ها */}
+          <div className="bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl p-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-white font-bold text-lg border-r-4 border-emerald-500 pr-3">کیف پول‌های من</h3>
+              <button onClick={fetchData} className="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-lg">
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
+            
+            <div className="space-y-3">
+              {assets.map((asset) => (
+                <div key={asset.id} className="flex justify-between items-center bg-slate-950/50 p-4 rounded-xl border border-slate-800 hover:border-slate-700 transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-bold text-slate-300">
+                      {asset.symbol.substring(0, 1)}
+                    </div>
+                    <div>
+                      <div className="text-white font-bold">{asset.symbol}</div>
+                      <div className="text-xs text-slate-500">موجودی: {asset.amount}</div>
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-white font-bold">{formatNumber(asset.valueInToman)} <span className="text-xs text-slate-500">تومان</span></div>
+                    <div className="text-xs text-slate-500">نرخ: {formatNumber(asset.priceInToman)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\deposit\page.tsx
+================================================================================
+
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { ArrowRight, Wallet, CreditCard, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import Link from "next/link";
+
+export default function DepositPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("irt"); // irt یا usdt
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleDeposit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus("idle");
+
+    if (!amount || Number(amount) <= 0) {
+      alert("مبلغ نامعتبر است");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const supabase = createClient();
+      
+      // 1. گرفتن اطلاعات کاربر
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("کاربر یافت نشد");
+
+      // 2. پیدا کردن کیف پول مربوطه
+      const { data: wallet, error: fetchError } = await supabase
+        .from("wallets")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("currency", currency)
+        .single();
+
+      if (fetchError || !wallet) throw new Error("کیف پول یافت نشد");
+
+      // 3. افزایش موجودی (شبیه‌سازی پرداخت موفق)
+      // نکته: در سیستم واقعی، این کار باید سمت سرور و بعد از تایید بانک انجام شود.
+      const newBalance = Number(wallet.balance) + Number(amount);
+
+      const { error: updateError } = await supabase
+        .from("wallets")
+        .update({ balance: newBalance })
+        .eq("id", wallet.id);
+
+      if (updateError) throw updateError;
+
+      setStatus("success");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000);
+
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+      
+      {/* افکت نوری */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="w-full max-w-md bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl">
+        
+        <div className="flex items-center gap-2 mb-6 text-slate-400 hover:text-white transition-colors cursor-pointer" onClick={() => router.back()}>
+          <ArrowRight className="w-5 h-5" />
+          <span>بازگشت</span>
+        </div>
+
+        <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+          <CreditCard className="w-6 h-6 text-emerald-500" />
+          افزایش موجودی
+        </h2>
+        <p className="text-slate-400 text-sm mb-8">
+          واریز آنی به کیف پول (شبیه‌ساز درگاه بانکی)
+        </p>
+
+        {status === "success" ? (
+          <div className="text-center py-10 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 animate-pulse">
+            <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">پرداخت موفق!</h3>
+            <p className="text-emerald-400 text-sm">حساب شما شارژ شد. انتقال به داشبورد...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleDeposit} className="space-y-6">
+            
+            {/* انتخاب ارز */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-300">انتخاب ارز واریزی</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setCurrency("irt")}
+                  className={`py-3 rounded-xl border font-bold transition-all ${currency === "irt" ? "bg-emerald-600 border-emerald-500 text-white" : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600"}`}
+                >
+                  تومان (IRT)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrency("usdt")}
+                  className={`py-3 rounded-xl border font-bold transition-all ${currency === "usdt" ? "bg-emerald-600 border-emerald-500 text-white" : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600"}`}
+                >
+                  تتر (USDT)
+                </button>
+              </div>
+            </div>
+
+            {/* مبلغ */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-slate-300">مبلغ واریزی</label>
+              <div className="relative">
+                <input 
+                  type="number" 
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="مثال: 1000000"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl py-4 px-4 pl-16 text-white text-xl font-bold placeholder:text-slate-600 focus:border-emerald-500 focus:outline-none transition-colors text-left dir-ltr"
+                />
+                <span className="absolute left-4 top-4.5 text-slate-500 font-bold text-sm uppercase">
+                  {currency === 'irt' ? 'تومان' : 'USDT'}
+                </span>
+              </div>
+            </div>
+
+            {/* دکمه پرداخت */}
+            <button 
+              disabled={loading}
+              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all flex items-center justify-center gap-2 mt-4"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  در حال اتصال به درگاه...
+                </>
+              ) : (
+                <>
+                  انتقال به درگاه پرداخت
+                  <ArrowRight className="w-5 h-5 rotate-180" />
+                </>
+              )}
+            </button>
+
+            <div className="text-center text-xs text-slate-500 bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+              ⚠️ این یک درگاه آزمایشی است. هیچ پولی کسر نمی‌شود و موجودی صرفاً جهت تست سیستم اضافه می‌گردد.
+            </div>
+
+          </form>
+        )}
+
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\login\page.tsx
+================================================================================
+
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Mail, Lock, Wallet, Loader2, AlertCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase/client"; // 👈 کلاینت سوپابیس
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // استیت‌های فرم
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // 1. اعتبارسنجی ساده
+    if (!email || !password) {
+      setError("لطفاً ایمیل و رمز عبور را وارد کنید.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // 2. ساخت کلاینت
+      const supabase = createClient();
+
+      // 3. درخواست ورود به سیستم
+      const { error: supabaseError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (supabaseError) {
+        throw new Error("ایمیل یا رمز عبور اشتباه است.");
+      }
+
+      // 4. موفقیت! رفتن به داشبورد
+      router.push("/dashboard");
+      router.refresh(); // رفرش برای آپدیت شدن وضعیت هدر و سایدبار
+
+    } catch (err: any) {
+      console.error("Login Error:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-950 relative overflow-hidden">
+      
+      {/* پس‌زمینه نوری */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] -z-10" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] -z-10" />
+
+      {/* باکس شیشه‌ای ورود */}
+      <div className="w-full max-w-md p-8 m-4 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl shadow-2xl">
+        
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block mb-4">
+            <span className="text-2xl font-bold text-emerald-500 tracking-tight">
+              تیوان اکس
+            </span>
+          </Link>
+          <h2 className="text-2xl font-bold text-white mb-2">خوش‌آمدید! 👋</h2>
+          <p className="text-slate-400 text-sm">
+            برای شروع معاملات، وارد حساب کاربری خود شوید.
+          </p>
+        </div>
+
+        {/* نمایش خطا */}
+        {error && (
+          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-3 text-rose-400 text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          
+          {/* ایمیل */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-300">ایمیل</label>
+            <div className="relative">
+              <Mail className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@mail.com" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-left dir-ltr"
+              />
+            </div>
+          </div>
+
+          {/* رمز عبور */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center">
+              <label className="text-sm font-medium text-slate-300">رمز عبور</label>
+              <Link href="#" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+                رمز عبور را فراموش کردید؟
+              </Link>
+            </div>
+            <div className="relative">
+              <Lock className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-left dir-ltr"
+              />
+            </div>
+          </div>
+
+          {/* دکمه ورود */}
+          <button 
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-600/50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                در حال ورود...
+              </>
+            ) : (
+              <>
+                ورود به حساب
+                <ArrowLeft className="w-5 h-5" />
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="flex items-center gap-4 my-6">
+          <div className="h-px bg-slate-800 flex-1" />
+          <span className="text-slate-500 text-xs">یا ادامه دهید با</span>
+          <div className="h-px bg-slate-800 flex-1" />
+        </div>
+
+        <button className="w-full bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2 group">
+          <Wallet className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
+          اتصال کیف پول (Wallet)
+        </button>
+
+        <div className="mt-8 text-center text-sm text-slate-400">
+          حساب کاربری ندارید؟ 
+          <Link href="/register" className="text-emerald-400 font-bold hover:text-emerald-300 mr-1 transition-colors">
+            ثبت‌نام کنید
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\markets\page.tsx
+================================================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { Search, TrendingUp, TrendingDown, Loader2, ArrowLeft } from "lucide-react";
+
+interface Coin {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap: number;
+  total_volume: number;
+  price_change_percentage_24h: number;
+  market_cap_rank: number;
+}
+
+export default function MarketsPage() {
+  const [coins, setCoins] = useState<Coin[]>([]);
+  const [filteredCoins, setFilteredCoins] = useState<Coin[]>([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // دریافت ۵۰ ارز برتر (می‌توانیم به ۱۰۰ تغییر دهیم)
+        const response = await axios.get(
+          "https://api.coingecko.com/api/v3/coins/markets",
+          {
+            params: {
+              vs_currency: "usd",
+              order: "market_cap_desc",
+              per_page: 50, 
+              page: 1,
+              sparkline: false,
+            },
+          }
+        );
+        setCoins(response.data);
+        setFilteredCoins(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching market data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // هندل کردن جستجو (فیلتر کردن لیست)
+  useEffect(() => {
+    const result = coins.filter(
+      (coin) =>
+        coin.name.toLowerCase().includes(search.toLowerCase()) ||
+        coin.symbol.toLowerCase().includes(search.toLowerCase())
+    );
+    setFilteredCoins(result);
+  }, [search, coins]);
+
+  const formatDollar = (val: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(val);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 pt-24 pb-10 px-4 sm:px-8 relative">
+      {/* بک‌گراند نوری */}
+      <div className="absolute top-20 right-0 w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none" />
+      <div className="absolute bottom-20 left-0 w-[300px] h-[300px] bg-blue-600/5 rounded-full blur-[80px] pointer-events-none" />
+
+      <div className="container mx-auto">
+        
+        {/* هدر و باکس جستجو */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+          <div className="text-center md:text-right">
+            <h1 className="text-3xl font-bold text-white mb-2 md:border-r-4 md:border-emerald-500 md:pr-4">
+              بازار ارزهای دیجیتال
+            </h1>
+            <p className="text-slate-400 text-sm">
+              بررسی لحظه‌ای قیمت ۵۰ ارز برتر بازار جهانی
+            </p>
+          </div>
+
+          <div className="relative w-full md:w-96">
+            <Search className="absolute right-4 top-3.5 text-slate-500 w-5 h-5" />
+            <input 
+              type="text" 
+              placeholder="جستجو (مثال: Bitcoin)" 
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 pr-12 pl-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-all text-right"
+            />
+          </div>
+        </div>
+
+        {/* جدول ارزها */}
+        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-80 gap-4">
+              <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+              <p className="text-slate-400">در حال دریافت لیست ارزها...</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-right">
+                <thead className="bg-slate-800/80 text-slate-400 text-sm uppercase">
+                  <tr>
+                    <th className="py-4 px-6 text-center w-16">#</th>
+                    <th className="py-4 px-6">نام ارز</th>
+                    <th className="py-4 px-6 text-left">قیمت</th>
+                    <th className="py-4 px-6 text-center">تغییر ۲۴h</th>
+                    <th className="py-4 px-6 text-left hidden md:table-cell">ارزش بازار</th>
+                    <th className="py-4 px-6 text-left hidden lg:table-cell">حجم معاملات</th>
+                    <th className="py-4 px-6 text-center">عملیات</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 text-slate-200">
+                  {filteredCoins.map((coin) => {
+                     const isPositive = coin.price_change_percentage_24h >= 0;
+                     return (
+                      <tr key={coin.id} className="hover:bg-slate-800/40 transition-colors group">
+                        <td className="py-4 px-6 text-center text-slate-500 font-mono text-sm">
+                          {coin.market_cap_rank}
+                        </td>
+                        <td className="py-4 px-6">
+                          <Link href={`/markets/${coin.id}`} className="flex items-center gap-3 hover:text-emerald-400 transition-colors">
+                            <img src={coin.image} alt={coin.name} className="w-8 h-8 rounded-full" />
+                            <div className="flex flex-col">
+                              <span className="font-bold">{coin.name}</span>
+                              <span className="text-xs text-slate-500 uppercase">{coin.symbol}</span>
+                            </div>
+                          </Link>
+                        </td>
+                        <td className="py-4 px-6 text-left font-mono font-medium">
+                          {formatDollar(coin.current_price)}
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className={`flex items-center justify-center gap-1 ${isPositive ? "text-emerald-400" : "text-rose-500"}`}>
+                            {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                            <span className="font-bold dir-ltr">
+                              {coin.price_change_percentage_24h.toFixed(2)}%
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-left text-slate-400 text-sm hidden md:table-cell dir-ltr font-mono">
+                          ${coin.market_cap.toLocaleString()}
+                        </td>
+                        <td className="py-4 px-6 text-left text-slate-400 text-sm hidden lg:table-cell dir-ltr font-mono">
+                          ${coin.total_volume.toLocaleString()}
+                        </td>
+                        <td className="py-4 px-6 text-center">
+                          <Link href={`/markets/${coin.id}`} className="inline-flex items-center gap-1 text-xs bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white px-3 py-1.5 rounded-lg transition-all border border-emerald-500/20 hover:border-emerald-500">
+                            تحلیل و خرید
+                            <ArrowLeft className="w-3 h-3" />
+                          </Link>
+                        </td>
+                      </tr>
+                     );
+                  })}
+                </tbody>
+              </table>
+              {filteredCoins.length === 0 && (
+                <div className="p-8 text-center text-slate-500">
+                   متاسفانه ارزی با این نام پیدا نشد.
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\markets\[id]\page.tsx
+================================================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Link from "next/link";
+import axios from "axios";
+import { 
+  ArrowRight, Loader2, TrendingUp, TrendingDown, 
+  Activity, Globe, Shield 
+} from "lucide-react";
+import TradingChart from "@/components/market/TradingChart"; // 👈 ایمپورت نمودار جدید
+
+interface CoinDetail {
+  id: string;
+  symbol: string;
+  name: string;
+  description: { en: string };
+  image: { large: string };
+  market_data: {
+    current_price: { usd: number };
+    market_cap: { usd: number };
+    total_volume: { usd: number };
+    high_24h: { usd: number };
+    low_24h: { usd: number };
+    price_change_percentage_24h: number;
+    circulating_supply: number;
+  };
+  links: { homepage: string[] };
+}
+
+export default function CoinPage() {
+  const params = useParams();
+  const coinId = params.id as string;
+
+  const [coin, setCoin] = useState<CoinDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!coinId) return;
+
+    const fetchCoinData = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${coinId}`,
+          {
+            params: {
+              localization: false,
+              tickers: false,
+              community_data: false,
+              developer_data: false,
+              sparkline: false,
+            },
+          }
+        );
+        setCoin(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching coin details:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchCoinData();
+  }, [coinId]);
+
+  const formatDollar = (val: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2,
+    }).format(val);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 gap-4">
+        <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
+        <p className="text-slate-400 animate-pulse">در حال بارگذاری اطلاعات بازار...</p>
+      </div>
+    );
+  }
+
+  if (!coin) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-white">
+        <p>اطلاعات یافت نشد.</p>
+        <Link href="/" className="text-emerald-400 mt-4 hover:underline">بازگشت به خانه</Link>
+      </div>
+    );
+  }
+
+  const isPositive = coin.market_data.price_change_percentage_24h >= 0;
+
+  return (
+    <div className="min-h-screen bg-slate-950 pb-20 pt-24 px-4 sm:px-8 relative overflow-hidden">
+      
+      {/* بک‌گراند نوری */}
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto max-w-6xl">
+        
+        {/* هدر صفحه: دکمه بازگشت */}
+        <div className="flex items-center gap-2 mb-8 text-slate-400 hover:text-white transition-colors w-fit">
+            <ArrowRight className="w-5 h-5" />
+            <Link href="/">بازگشت به لیست</Link>
+        </div>
+
+        {/* کارت اصلی اطلاعات */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* ستون راست: اطلاعات اصلی و نمودار */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* هدر ارز */}
+            <div className="flex items-center gap-6 bg-slate-900/50 p-6 rounded-3xl border border-slate-800 backdrop-blur-md">
+              <img src={coin.image.large} alt={coin.name} className="w-20 h-20 drop-shadow-2xl" />
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+                  {coin.name}
+                  <span className="text-sm bg-slate-800 text-slate-400 px-3 py-1 rounded-full uppercase border border-slate-700">
+                    {coin.symbol}
+                  </span>
+                </h1>
+                <div className="flex items-center gap-4">
+                    <span className="text-3xl font-mono text-emerald-400 font-bold">
+                        {formatDollar(coin.market_data.current_price.usd)}
+                    </span>
+                    <div className={`flex items-center gap-1 px-3 py-1 rounded-lg ${isPositive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-500'}`}>
+                        {isPositive ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
+                        <span className="font-bold dir-ltr">{coin.market_data.price_change_percentage_24h.toFixed(2)}%</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 👈 نمودار ترید واقعی (جایگزین باکس قبلی) */}
+            <div className="w-full">
+               <TradingChart coinId={coinId} />
+            </div>
+
+            {/* توضیحات ارز */}
+            <div className="bg-slate-900/50 p-8 rounded-3xl border border-slate-800">
+                <h3 className="text-xl font-bold text-white mb-4 border-r-4 border-emerald-500 pr-3">درباره {coin.name}</h3>
+                <p className="text-slate-400 leading-8 text-justify opacity-80" dangerouslySetInnerHTML={{ __html: coin.description.en ? coin.description.en.slice(0, 600) + "..." : "توضیحات در دسترس نیست." }} />
+            </div>
+
+          </div>
+
+          {/* ستون چپ: آمار و دکمه خرید */}
+          <div className="space-y-6">
+            
+            {/* باکس خرید/فروش سریع */}
+            <div className="bg-gradient-to-b from-slate-800 to-slate-900 p-6 rounded-3xl border border-slate-700 shadow-2xl">
+                <h3 className="text-white font-bold mb-6 text-lg">معامله سریع</h3>
+                <div className="space-y-4">
+                    <div className="flex justify-between text-sm text-slate-400 mb-1">
+                        <span>موجودی کیف پول:</span>
+                        <span>0 USDT</span>
+                    </div>
+                    <div className="relative">
+                        <input type="number" placeholder="0.00" className="w-full bg-slate-950 border border-slate-700 rounded-xl py-4 px-4 text-white text-left font-mono focus:border-emerald-500 focus:outline-none transition-colors" />
+                        <span className="absolute right-4 top-4 text-slate-500 font-bold">USDT</span>
+                    </div>
+                    <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
+                        خرید {coin.symbol.toUpperCase()}
+                    </button>
+                    <button className="w-full bg-slate-700 hover:bg-rose-500 hover:text-white text-slate-300 font-bold py-4 rounded-xl transition-all border border-slate-600">
+                        فروش {coin.symbol.toUpperCase()}
+                    </button>
+                </div>
+            </div>
+
+            {/* آمار بازار */}
+            <div className="bg-slate-900/50 p-6 rounded-3xl border border-slate-800 space-y-4">
+                <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-emerald-500" />
+                    آمار بازار
+                </h3>
+                
+                <div className="flex justify-between items-center py-3 border-b border-slate-800">
+                    <span className="text-slate-500 text-sm">ارزش بازار</span>
+                    <span className="text-white font-mono text-sm">{formatDollar(coin.market_data.market_cap.usd)}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-800">
+                    <span className="text-slate-500 text-sm">حجم ۲۴ ساعته</span>
+                    <span className="text-white font-mono text-sm">{formatDollar(coin.market_data.total_volume.usd)}</span>
+                </div>
+                <div className="flex justify-between items-center py-3 border-b border-slate-800">
+                    <span className="text-slate-500 text-sm">بالاترین (24h)</span>
+                    <span className="text-emerald-400 font-mono text-sm">{formatDollar(coin.market_data.high_24h.usd)}</span>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                    <span className="text-slate-500 text-sm">پایین‌ترین (24h)</span>
+                    <span className="text-rose-400 font-mono text-sm">{formatDollar(coin.market_data.low_24h.usd)}</span>
+                </div>
+            </div>
+
+            {/* لینک‌های مفید */}
+            <div className="bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
+                <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <Globe className="w-5 h-5 text-blue-500" />
+                    اطلاعات بیشتر
+                </h3>
+                {coin.links.homepage[0] && (
+                    <a href={coin.links.homepage[0]} target="_blank" rel="noreferrer" className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors text-slate-300 text-sm mb-2">
+                        <span>وبسایت رسمی</span>
+                        <ArrowRight className="w-4 h-4 rotate-180" />
+                    </a>
+                )}
+                <div className="flex items-center justify-between p-3 rounded-xl bg-slate-800/50 text-slate-300 text-sm">
+                    <span className="flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-green-500" />
+                        امنیت
+                    </span>
+                    <span className="text-green-400 text-xs">تایید شده</span>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\register\page.tsx
+================================================================================
+
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Mail, Lock, User, Gift, Check, Loader2, AlertCircle } from "lucide-react";
+import { createClient } from "@/utils/supabase/client"; // 👈 ایمپورت کلاینت سوپابیس
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  // استیت‌های فرم
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    referralCode: "",
+  });
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // 1. اعتبارسنجی اولیه
+    if (!formData.email || !formData.password) {
+      setError("لطفاً ایمیل و رمز عبور را وارد کنید.");
+      setLoading(false);
+      return;
+    }
+    if (formData.password.length < 6) {
+      setError("رمز عبور باید حداقل ۶ کاراکتر باشد.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // 2. ساخت کلاینت سوپابیس
+      const supabase = createClient();
+
+      // 3. ارسال درخواست ثبت‌نام
+      const { data, error: supabaseError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName, // ذخیره نام در متادیتای کاربر
+            referral_code: formData.referralCode,
+          },
+        },
+      });
+
+      if (supabaseError) {
+        throw new Error(supabaseError.message);
+      }
+
+      // 4. موفقیت! انتقال به داشبورد
+      // نکته: اگر تایید ایمیل در سوپابیس فعال باشد، باید پیام "ایمیل خود را چک کنید" نمایش دهیم.
+      // فعلا فرض می‌کنیم کاربر مستقیم وارد می‌شود.
+      router.push("/dashboard");
+
+    } catch (err: any) {
+      console.error("Registration Error:", err);
+      setError(err.message || "خطایی در ثبت‌نام رخ داد.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center bg-slate-950 relative overflow-hidden py-10">
+      
+      {/* پس‌زمینه نوری */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[100px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] -z-10" />
+
+      {/* باکس شیشه‌ای ثبت‌نام */}
+      <div className="w-full max-w-lg p-8 m-4 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl shadow-2xl">
+        
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block mb-4">
+            <span className="text-2xl font-bold text-emerald-500 tracking-tight">
+              تیوان اکس
+            </span>
+          </Link>
+          <h2 className="text-2xl font-bold text-white mb-2">ساخت حساب جدید 🚀</h2>
+          <p className="text-slate-400 text-sm">
+            به جمع ۵۰,۰۰۰ معامله‌گر حرفه‌ای بپیوندید.
+          </p>
+        </div>
+
+        {/* نمایش خطا اگر وجود داشته باشد */}
+        {error && (
+          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center gap-3 text-rose-400 text-sm">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleRegister} className="space-y-4">
+          
+          {/* نام و نام خانوادگی */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-300">نام کامل</label>
+            <div className="relative">
+              <User className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="text" 
+                value={formData.fullName}
+                onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                placeholder="مثال: علی محمدی" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-right"
+              />
+            </div>
+          </div>
+
+          {/* ایمیل */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-300">ایمیل</label>
+            <div className="relative">
+              <Mail className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="email" 
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                placeholder="example@mail.com" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-left dir-ltr"
+              />
+            </div>
+          </div>
+
+          {/* رمز عبور */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-300">رمز عبور</label>
+            <div className="relative">
+              <Lock className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="password" 
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                placeholder="حداقل ۶ کاراکتر" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-left dir-ltr"
+              />
+            </div>
+          </div>
+
+          {/* کد معرف */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+              کد معرف 
+              <span className="text-xs text-slate-500 font-normal">(اختیاری)</span>
+            </label>
+            <div className="relative">
+              <Gift className="absolute right-3 top-3.5 text-slate-500 w-5 h-5" />
+              <input 
+                type="text" 
+                value={formData.referralCode}
+                onChange={(e) => setFormData({...formData, referralCode: e.target.value})}
+                placeholder="Referral Code" 
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-xl px-10 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all text-left dir-ltr"
+              />
+            </div>
+          </div>
+
+          {/* دکمه ثبت‌نام */}
+          <button 
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-600/50 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center justify-center gap-2 mt-4"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                در حال ساخت حساب...
+              </>
+            ) : (
+              <>
+                ساخت حساب کاربری
+                <ArrowLeft className="w-5 h-5" />
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="mt-8 text-center text-sm text-slate-400">
+          قبلاً ثبت‌نام کرده‌اید؟ 
+          <Link href="/login" className="text-emerald-400 font-bold hover:text-emerald-300 mr-1 transition-colors">
+            وارد شوید
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: app\trade\page.tsx
+================================================================================
+
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { ArrowDown, ArrowUp, ChevronDown, Wallet, History } from "lucide-react";
+import TradingChart from "@/components/market/TradingChart"; // فراخوانی نموداری که قبلاً ساختیم
+
+// دیتای ساختگی برای اردر بوک (لیست سفارشات)
+const ORDER_BOOK_MOCK = {
+  asks: [ // فروشندگان (قرمز)
+    { price: 64250.50, amount: 0.542 },
+    { price: 64249.00, amount: 1.200 },
+    { price: 64248.50, amount: 0.050 },
+    { price: 64248.00, amount: 0.850 },
+    { price: 64247.50, amount: 2.100 },
+  ],
+  bids: [ // خریداران (سبز)
+    { price: 64245.00, amount: 1.500 },
+    { price: 64244.50, amount: 0.300 },
+    { price: 64244.00, amount: 5.000 },
+    { price: 64243.50, amount: 0.120 },
+    { price: 64242.00, amount: 0.900 },
+  ]
+};
+
+export default function TradePage() {
+  const [orderType, setOrderType] = useState<"buy" | "sell">("buy");
+  const [price, setPrice] = useState("64246.00");
+  const [amount, setAmount] = useState("");
+  
+  // شبیه‌سازی قیمت لحظه‌ای
+  const [currentPrice, setCurrentPrice] = useState(64246.00);
+
+  // افکت برای تغییر قیمت لحظه‌ای (جهت زنده نشان دادن صفحه)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const change = (Math.random() - 0.5) * 10;
+      setCurrentPrice(prev => prev + change);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 pt-20 pb-4 px-2 sm:px-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full">
+        
+        {/* ستون اول: لیست سفارشات (Order Book) */}
+        <div className="lg:col-span-3 bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden flex flex-col h-[85vh]">
+          <div className="p-4 border-b border-slate-800 flex justify-between items-center">
+            <h3 className="text-slate-400 text-sm font-bold">Order Book</h3>
+            <span className="text-xs text-slate-500">BTC/USDT</span>
+          </div>
+          
+          {/* لیست فروشندگان (قرمز) */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            {ORDER_BOOK_MOCK.asks.map((order, i) => (
+              <div key={i} className="flex justify-between text-xs cursor-pointer hover:bg-slate-800/50 px-2 py-1 rounded relative overflow-hidden">
+                <div className="absolute top-0 right-0 bottom-0 bg-rose-500/10" style={{ width: `${Math.random() * 50}%` }} />
+                <span className="text-rose-500 font-mono z-10">{order.price.toLocaleString()}</span>
+                <span className="text-slate-400 z-10">{order.amount}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* قیمت لحظه‌ای وسط */}
+          <div className="py-3 border-y border-slate-800 text-center bg-slate-900">
+            <div className="text-xl font-mono font-bold text-emerald-400 flex items-center justify-center gap-2">
+              {currentPrice.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+              <ArrowUp className="w-4 h-4" />
+            </div>
+            <span className="text-xs text-slate-500">≈ $64,246.00</span>
+          </div>
+
+          {/* لیست خریداران (سبز) */}
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            {ORDER_BOOK_MOCK.bids.map((order, i) => (
+              <div key={i} className="flex justify-between text-xs cursor-pointer hover:bg-slate-800/50 px-2 py-1 rounded relative overflow-hidden">
+                <div className="absolute top-0 right-0 bottom-0 bg-emerald-500/10" style={{ width: `${Math.random() * 50}%` }} />
+                <span className="text-emerald-500 font-mono z-10">{order.price.toLocaleString()}</span>
+                <span className="text-slate-400 z-10">{order.amount}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ستون دوم: نمودار (Chart) */}
+        <div className="lg:col-span-6 flex flex-col gap-4">
+          
+          {/* هدر اطلاعات ارز */}
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 flex justify-between items-center">
+             <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 cursor-pointer hover:bg-slate-800 px-2 py-1 rounded-lg transition-colors">
+                    <img src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png" className="w-8 h-8" alt="BTC" />
+                    <div>
+                        <h1 className="text-white font-bold flex items-center gap-1">
+                            BTC / USDT
+                            <ChevronDown className="w-4 h-4 text-slate-500" />
+                        </h1>
+                        <span className="text-xs text-slate-400">Bitcoin</span>
+                    </div>
+                </div>
+             </div>
+             <div className="hidden sm:flex gap-6 text-sm">
+                <div>
+                    <p className="text-slate-500 text-xs">تغییر ۲۴h</p>
+                    <p className="text-emerald-400 font-mono">+2.45%</p>
+                </div>
+                <div>
+                    <p className="text-slate-500 text-xs">حجم (24h)</p>
+                    <p className="text-white font-mono">452.12 BTC</p>
+                </div>
+                <div>
+                    <p className="text-slate-500 text-xs">سقف قیمت</p>
+                    <p className="text-white font-mono">65,100</p>
+                </div>
+             </div>
+          </div>
+
+          {/* کامپوننت نمودار تریدینگ ویو (که قبلا ساختیم) */}
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-1 h-[60vh] relative">
+             <TradingChart coinId="bitcoin" />
+          </div>
+
+          {/* بخش تاریخچه سفارشات من (خالی) */}
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 flex-1">
+             <div className="flex gap-4 border-b border-slate-800 pb-2 mb-4">
+                <button className="text-emerald-400 text-sm font-bold border-b-2 border-emerald-400 pb-2 -mb-2.5">سفارشات باز</button>
+                <button className="text-slate-500 text-sm hover:text-white transition-colors">تاریخچه معاملات</button>
+             </div>
+             <div className="flex flex-col items-center justify-center h-20 text-slate-500 text-sm gap-2 opacity-50">
+                <History className="w-6 h-6" />
+                هیچ سفارش بازی ندارید
+             </div>
+          </div>
+        </div>
+
+        {/* ستون سوم: فرم معامله (Trade Form) */}
+        <div className="lg:col-span-3 bg-slate-900/50 border border-slate-800 rounded-2xl p-4 flex flex-col h-[85vh]">
+            
+            {/* تب خرید و فروش */}
+            <div className="flex bg-slate-950 p-1 rounded-xl mb-6">
+                <button 
+                    onClick={() => setOrderType("buy")}
+                    className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${orderType === "buy" ? "bg-emerald-600 text-white shadow-lg" : "text-slate-400 hover:text-white"}`}
+                >
+                    خرید
+                </button>
+                <button 
+                    onClick={() => setOrderType("sell")}
+                    className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${orderType === "sell" ? "bg-rose-600 text-white shadow-lg" : "text-slate-400 hover:text-white"}`}
+                >
+                    فروش
+                </button>
+            </div>
+
+            {/* نوع سفارش */}
+            <div className="flex gap-2 text-xs text-slate-400 mb-4">
+                <span className="text-white bg-slate-800 px-2 py-1 rounded cursor-pointer">Limit</span>
+                <span className="hover:text-white cursor-pointer px-2 py-1">Market</span>
+                <span className="hover:text-white cursor-pointer px-2 py-1">Stop-Limit</span>
+            </div>
+
+            {/* ورودی‌ها */}
+            <div className="space-y-4">
+                
+                {/* ورودی قیمت */}
+                <div className="space-y-1">
+                    <label className="text-xs text-slate-500">قیمت (USDT)</label>
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            className="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-3 text-white text-left font-mono focus:border-emerald-500 focus:outline-none"
+                        />
+                        <span className="absolute right-3 top-3.5 text-xs text-slate-500">USDT</span>
+                    </div>
+                </div>
+
+                {/* ورودی مقدار */}
+                <div className="space-y-1">
+                    <label className="text-xs text-slate-500">مقدار (BTC)</label>
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="0.00"
+                            className="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-3 text-white text-left font-mono focus:border-emerald-500 focus:outline-none"
+                        />
+                        <span className="absolute right-3 top-3.5 text-xs text-slate-500">BTC</span>
+                    </div>
+                </div>
+
+                {/* اسلایدر درصدی */}
+                <div className="flex justify-between gap-2">
+                    {[25, 50, 75, 100].map(p => (
+                        <button key={p} className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs py-1 rounded transition-colors">
+                            {p}%
+                        </button>
+                    ))}
+                </div>
+
+                {/* موجودی */}
+                <div className="flex justify-between text-xs text-slate-400 mt-2">
+                    <span className="flex items-center gap-1"><Wallet className="w-3 h-3" /> موجودی:</span>
+                    <span className="text-white font-mono">0.00 USDT</span>
+                </div>
+
+                {/* دکمه نهایی */}
+                <button className={`w-full py-4 rounded-xl font-bold text-lg mt-4 shadow-lg transition-transform active:scale-95 ${orderType === "buy" ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20" : "bg-rose-600 hover:bg-rose-500 text-white shadow-rose-500/20"}`}>
+                    {orderType === "buy" ? "خرید BTC" : "فروش BTC"}
+                </button>
+
+            </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: components\landing\Hero.tsx
+================================================================================
+
+import Link from "next/link";
+import { ArrowLeft, ShieldCheck, Zap, BarChart3 } from "lucide-react";
+
+export default function Hero() {
+  return (
+    <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
+      
+      {/* 1. پس‌زمینه نوری (Background Glows) */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -z-10" />
+
+      <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        {/* 2. ستون سمت راست: متن و دکمه‌ها */}
+        <div className="flex flex-col gap-6 text-right z-10">
+          
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit self-start sm:self-auto">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-emerald-400 text-xs font-bold tracking-wide">
+              نسل جدید معاملات الگوریتمی
+            </span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight text-white">
+            فراتر از یک <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-blue-500">
+              صرافی ارز دیجیتال
+            </span>
+          </h1>
+          
+          <p className="text-slate-400 text-lg sm:text-xl leading-relaxed max-w-lg">
+            در <span className="text-emerald-400 font-bold">تیوان اکس</span>، سرعت نور و امنیت بانک مرکزی را تجربه کنید. 
+            پلتفرمی برای حرفه‌ای‌ها، با کارمزد صفر در معاملات اول.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <Link 
+              href="/register" 
+              className="group relative flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]"
+            >
+              شروع قدرتمند
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            </Link>
+            
+            <Link 
+              href="/markets" 
+              className="flex items-center justify-center gap-2 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white px-8 py-4 rounded-xl font-medium transition-all"
+            >
+              مشاهده قیمت‌ها
+            </Link>
+          </div>
+
+          {/* آمار کوچک زیر دکمه‌ها */}
+          <div className="grid grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-800/50">
+            <div>
+              <h4 className="text-2xl font-bold text-white">+۵۰K</h4>
+              <p className="text-xs text-slate-500">کاربر فعال</p>
+            </div>
+            <div>
+              <h4 className="text-2xl font-bold text-white">$۱۰M+</h4>
+              <p className="text-xs text-slate-500">حجم روزانه</p>
+            </div>
+            <div>
+              <h4 className="text-2xl font-bold text-emerald-400">۰.۰۱٪</h4>
+              <p className="text-xs text-slate-500">کارمزد پایه</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. ستون سمت چپ: تصویر گرافیکی (پنل ترید نمادین) */}
+        <div className="relative hidden lg:block z-10">
+          {/* کارت اصلی شیشه‌ای */}
+          <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-2xl transform rotate-y-12 hover:rotate-0 transition-all duration-700">
+            
+            {/* هدر کارت */}
+            <div className="flex justify-between items-center mb-6 border-b border-slate-700/50 pb-4">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+              </div>
+              <span className="text-xs text-slate-500 font-mono">BTC/USDT - Tivan Pro</span>
+            </div>
+
+            {/* محتوای کارت (شبیه‌سازی چارت و اعداد) */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-end">
+                <div>
+                  <p className="text-xs text-slate-400">قیمت بیت‌کوین</p>
+                  <h3 className="text-3xl font-mono text-white">$۹۴,۵۲۰.۰۰</h3>
+                </div>
+                <span className="text-emerald-400 text-sm font-bold bg-emerald-500/10 px-2 py-1 rounded">+۲.۴٪</span>
+              </div>
+              
+              {/* نمودار ساختگی با CSS */}
+              <div className="h-32 w-full flex items-end justify-between gap-1 opacity-80">
+                {[40, 60, 45, 70, 50, 80, 65, 90, 75, 100].map((h, i) => (
+                  <div 
+                    key={i} 
+                    className="w-full bg-emerald-500/20 hover:bg-emerald-500 rounded-t-sm transition-all"
+                    style={{ height: `${h}%` }}
+                  />
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mt-4">
+                <div className="bg-slate-800/50 p-3 rounded-lg flex items-center gap-3">
+                  <ShieldCheck className="text-blue-400 w-5 h-5" />
+                  <div className="text-xs">
+                    <p className="text-white">امنیت کامل</p>
+                    <p className="text-slate-500">کیف پول سرد</p>
+                  </div>
+                </div>
+                <div className="bg-slate-800/50 p-3 rounded-lg flex items-center gap-3">
+                  <Zap className="text-yellow-400 w-5 h-5" />
+                  <div className="text-xs">
+                    <p className="text-white">مچینگ سریع</p>
+                    <p className="text-slate-500">۱۰۰k تراکنش/ثانیه</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* المنت‌های شناور پشت کارت */}
+          <div className="absolute -top-10 -right-10 bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-xl animate-bounce duration-[3000ms]">
+            <BarChart3 className="text-emerald-400 w-8 h-8" />
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+================================================================================
+📄 FILE: components\landing\MarketList.tsx
+================================================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { TrendingUp, TrendingDown, Loader2, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+
+interface Coin {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap: number;
+  price_change_percentage_24h: number;
+  sparkline_in_7d: {
+    price: number[];
+  };
+}
+
+export default function MarketList() {
+  const [coins, setCoins] = useState<Coin[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // بهینه سازی: دریافت فقط ۱۰ ارز برتر برای صفحه اصلی
+        const response = await axios.get(
+          "https://api.coingecko.com/api/v3/coins/markets",
+          {
+            params: {
+              vs_currency: "usd",
+              order: "market_cap_desc",
+              per_page: 10, // محدود کردن به ۱۰ آیتم
+              page: 1,
+              sparkline: true,
+            },
+          }
+        );
+        setCoins(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    const interval = setInterval(fetchData, 60000); // آپدیت هر ۱ دقیقه
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(value);
+  };
+
+  const renderSparkline = (prices: number[], isPositive: boolean) => {
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const range = max - min;
+    const width = 120;
+    const height = 40;
+    
+    const points = prices
+      .map((price, index) => {
+        const x = (index / (prices.length - 1)) * width;
+        const y = height - ((price - min) / range) * height;
+        return `${x},${y}`;
+      })
+      .join(" ");
+
+    return (
+      <svg width={width} height={height} className="overflow-visible">
+        <polyline
+          fill="none"
+          stroke={isPositive ? "#10b981" : "#f43f5e"}
+          strokeWidth="2"
+          points={points}
+        />
+      </svg>
+    );
+  };
+
+  return (
+    <section className="w-full py-16 px-4 sm:px-8">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white border-r-4 border-emerald-500 pr-4">
+            نبض بازار
+            </h2>
+            <Link href="/markets" className="text-emerald-400 hover:text-emerald-300 text-sm flex items-center gap-1">
+                مشاهده همه
+                <ArrowLeft className="w-4 h-4" />
+            </Link>
+        </div>
+
+        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-64 gap-4">
+              <Loader2 className="w-10 h-10 text-emerald-500 animate-spin" />
+              <p className="text-slate-400">در حال دریافت نرخ‌های لحظه‌ای...</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-right">
+                <thead className="bg-slate-800/80 text-slate-400 text-sm uppercase">
+                  <tr>
+                    <th className="py-4 px-6 text-right">نام ارز</th>
+                    <th className="py-4 px-6 text-left">قیمت (دلار)</th>
+                    <th className="py-4 px-6 text-center">تغییر ۲۴ساعت</th>
+                    <th className="py-4 px-6 text-center hidden md:table-cell">روند ۷ روزه</th>
+                    <th className="py-4 px-6 text-left hidden lg:table-cell">ارزش بازار</th>
+                    <th className="py-4 px-6 text-center">عملیات</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 text-slate-200">
+                  {coins.map((coin) => {
+                    const isPositive = coin.price_change_percentage_24h >= 0;
+                    return (
+                      <tr key={coin.id} className="hover:bg-slate-800/40 transition-colors group">
+                        <td className="py-4 px-6">
+                          <div className="flex items-center gap-3">
+                            <img src={coin.image} alt={coin.name} className="w-8 h-8 rounded-full" />
+                            <div className="flex flex-col">
+                              <span className="font-bold text-white">{coin.name}</span>
+                              <span className="text-xs text-slate-500 uppercase">{coin.symbol}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-left font-mono font-medium text-emerald-100">
+                          {formatCurrency(coin.current_price)}
+                        </td>
+                        <td className="py-4 px-6">
+                          <div className={`flex items-center justify-center gap-1 ${isPositive ? "text-emerald-400" : "text-rose-500"}`}>
+                            {isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                            <span className="font-bold dir-ltr">
+                              {coin.price_change_percentage_24h.toFixed(2)}%
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 hidden md:flex justify-center items-center">
+                          <div className="opacity-70 group-hover:opacity-100 transition-opacity">
+                            {renderSparkline(coin.sparkline_in_7d.price, isPositive)}
+                          </div>
+                        </td>
+                        <td className="py-4 px-6 text-left text-slate-400 text-sm hidden lg:table-cell dir-ltr">
+                          ${coin.market_cap.toLocaleString()}
+                        </td>
+                        <td className="py-4 px-6 text-center">
+                          <button className="bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white px-4 py-2 rounded-lg text-sm transition-all border border-emerald-500/20 hover:border-emerald-500">
+                            معامله
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+================================================================================
+📄 FILE: components\layout\Footer.tsx
+================================================================================
+
+import Link from "next/link";
+import Image from "next/image";
+import { Twitter, Instagram, Linkedin, Github, Mail, Phone, MapPin, ChevronLeft } from "lucide-react";
+
+export default function Footer() {
+  return (
+    <footer className="bg-slate-950 border-t border-slate-900 pt-16 pb-8 text-sm">
+      <div className="container mx-auto px-4 sm:px-8">
+        
+        {/* بخش بالایی: لوگو و ستون‌ها */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          
+          {/* ستون ۱: درباره ما */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="relative w-10 h-10">
+                 <Image src="/logo.svg" alt="TivanEx" fill className="object-contain" />
+              </div>
+              <span className="text-2xl font-bold text-emerald-500 tracking-tight">
+                تیوان اکس
+              </span>
+            </div>
+            <p className="text-slate-400 leading-7 text-justify">
+              تیوان اکس، پیشرو در ارائه خدمات نوین ارزهای دیجیتال در ایران. 
+              ما با ترکیب امنیت بانکی و سرعت جهانی، بستری امن برای معاملات شما فراهم کرده‌ایم.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white transition-all">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-blue-500 hover:text-white transition-all">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-blue-700 hover:text-white transition-all">
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-slate-700 hover:text-white transition-all">
+                <Github className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* ستون ۲: دسترسی سریع */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 border-r-4 border-emerald-500 pr-3">دسترسی سریع</h3>
+            <ul className="space-y-4 text-slate-400">
+              <li>
+                <Link href="/markets" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  بازار ارزهای دیجیتال
+                </Link>
+              </li>
+              <li>
+                <Link href="/trade" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  معامله حرفه‌ای
+                </Link>
+              </li>
+              <li>
+                <Link href="/register" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  ثبت‌نام و احراز هویت
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  کیف پول من
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ستون ۳: راهنما و پشتیبانی */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 border-r-4 border-emerald-500 pr-3">راهنما</h3>
+            <ul className="space-y-4 text-slate-400">
+              <li>
+                <Link href="#" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  کارمزد معاملات
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  قوانین و مقررات
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  سوالات متداول
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
+                  <ChevronLeft className="w-4 h-4 text-slate-600" />
+                  حریم خصوصی
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ستون ۴: اطلاعات تماس */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 border-r-4 border-emerald-500 pr-3">تماس با ما</h3>
+            <ul className="space-y-6 text-slate-400">
+              <li className="flex items-start gap-3">
+                <MapPin className="w-6 h-6 text-emerald-500 shrink-0" />
+                <span className="leading-6">
+                  تهران، سعادت‌آباد، بلوار فرهنگ، ساختمان تیوان، طبقه ۵
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-emerald-500 shrink-0" />
+                <span className="dir-ltr font-mono text-lg hover:text-white transition-colors cursor-pointer">
+                  021 - 88 44 22 11
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-emerald-500 shrink-0" />
+                <span className="font-mono hover:text-white transition-colors cursor-pointer">
+                  support@tivanex.com
+                </span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* بخش پایینی: کپی‌رایت */}
+        <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
+          <p>
+            © ۱۴۰۳ تمامی حقوق برای صرافی <strong className="text-emerald-500">تیوان اکس</strong> محفوظ است.
+          </p>
+          <div className="flex gap-6">
+            <span>Server Time: {new Date().toLocaleTimeString('en-US', { hour12: false })}</span>
+            <span>Version: 1.0.5 Beta</span>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+}
+================================================================================
+📄 FILE: components\layout\Header.tsx
+================================================================================
+
+import Link from "next/link";
+import Image from "next/image";
+import { Menu } from "lucide-react"; // آیکون منو برای موبایل
+
+export default function Header() {
+  return (
+    <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-slate-950/80 backdrop-blur-md">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6">
+        
+        {/* بخش راست: لوگو و منوی دسکتاپ */}
+        <div className="flex items-center gap-8">
+          {/* لوگو */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-8 h-8">
+               <Image 
+                 src="/logo.svg" 
+                 alt="لوگوی تیوان اکس" 
+                 fill
+                 className="object-contain group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.5)] transition-all"
+               />
+            </div>
+            <span className="text-xl font-bold text-emerald-500 tracking-tight">
+              تیوان اکس
+            </span>
+          </Link>
+
+          {/* منوی دسکتاپ (در موبایل مخفی می‌شود) */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
+            <Link href="/markets" className="hover:text-emerald-400 transition-colors">
+              بازارها
+            </Link>
+            <Link href="/trade" className="hover:text-emerald-400 transition-colors">
+              معامله حرفه‌ای
+            </Link>
+            <Link href="/education" className="hover:text-emerald-400 transition-colors">
+              آموزش
+            </Link>
+          </nav>
+        </div>
+
+        {/* بخش چپ: دکمه‌های ورود و ثبت‌نام */}
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
+            <Link 
+              href="/login" 
+              className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+            >
+              ورود
+            </Link>
+            <Link 
+              href="/register" 
+              className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all"
+            >
+              ثبت‌نام
+            </Link>
+          </div>
+
+          {/* دکمه منوی موبایل (فقط در موبایل دیده می‌شود) */}
+          <button className="md:hidden text-slate-300 hover:text-white">
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
+
+      </div>
+    </header>
+  );
+}
+================================================================================
+📄 FILE: components\market\TradingChart.tsx
+================================================================================
+
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { 
+  createChart, 
+  ColorType, 
+  CrosshairMode, 
+  IChartApi, 
+  CandlestickSeries // 👈 این کلاس جدید اضافه شد برای نسخه 5
+} from "lightweight-charts";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
+
+interface TradingChartProps {
+  coinId: string;
+}
+
+export default function TradingChart({ coinId }: TradingChartProps) {
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<IChartApi | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (!chartContainerRef.current) return;
+
+    // 1. تنظیمات اولیه چارت
+    const chart = createChart(chartContainerRef.current, {
+      layout: {
+        background: { type: ColorType.Solid, color: "transparent" },
+        textColor: "#94a3b8", // slate-400
+      },
+      grid: {
+        vertLines: { color: "#1e293b" }, // slate-800
+        horzLines: { color: "#1e293b" },
+      },
+      width: chartContainerRef.current.clientWidth,
+      height: 400,
+      crosshair: {
+        mode: CrosshairMode.Normal,
+      },
+      rightPriceScale: {
+        borderColor: "#334155",
+      },
+      timeScale: {
+        borderColor: "#334155",
+        timeVisible: true,
+      },
+    });
+
+    chartRef.current = chart;
+
+    // 2. ساخت سری کندل‌ها (روش جدید نسخه 5)
+    // به جای addCandlestickSeries از addSeries استفاده می‌کنیم
+    const mainSeries = chart.addSeries(CandlestickSeries, {
+      upColor: "#10b981", // Emerald-500
+      downColor: "#f43f5e", // Rose-500
+      borderVisible: false,
+      wickUpColor: "#10b981",
+      wickDownColor: "#f43f5e",
+    });
+
+    // 3. دریافت دیتا
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc`,
+          {
+            params: {
+              vs_currency: "usd",
+              days: "30", // دیتای ۳۰ روزه
+            },
+          }
+        );
+
+        const formattedData = response.data.map((item: number[]) => ({
+          time: item[0] / 1000,
+          open: item[1],
+          high: item[2],
+          low: item[3],
+          close: item[4],
+        }));
+
+        mainSeries.setData(formattedData);
+        chart.timeScale().fitContent();
+        setLoading(false);
+      } catch (err) {
+        console.error("Chart Data Error:", err);
+        setError(true);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    // 4. ریسپانسیو بودن
+    const handleResize = () => {
+      if (chartContainerRef.current) {
+        chart.applyOptions({ width: chartContainerRef.current.clientWidth });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      chart.remove();
+    };
+  }, [coinId]);
+
+  return (
+    <div className="relative w-full h-[400px] bg-slate-900/50 rounded-3xl border border-slate-800 overflow-hidden backdrop-blur-sm">
+      
+      {loading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 z-10">
+          <Loader2 className="w-10 h-10 text-emerald-500 animate-spin mb-2" />
+          <span className="text-slate-400 text-sm">در حال ترسیم نمودار...</span>
+        </div>
+      )}
+
+      {error && !loading && (
+        <div className="absolute inset-0 flex items-center justify-center text-rose-500 z-10">
+          خطا در دریافت دیتای نمودار
+        </div>
+      )}
+
+      <div ref={chartContainerRef} className="w-full h-full" />
+      
+      <div className="absolute top-4 left-4 pointer-events-none opacity-20">
+        <span className="text-4xl font-black text-slate-700">TivanEx</span>
+      </div>
+    </div>
+  );
+}
+================================================================================
+📄 FILE: utils\supabase\client.ts
+================================================================================
+
+import { createBrowserClient } from '@supabase/ssr';
+
+export function createClient() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
