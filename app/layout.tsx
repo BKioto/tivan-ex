@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer"; // 👈 ایمپورت فوتر جدید
+import Footer from "@/components/layout/Footer";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   description: "تجربه سریع‌ترین و امن‌ترین معاملات ارز دیجیتال در ایران با تیوان اکس.",
   icons: {
     icon: "/logo.svg",
+  },
+  // 👇 کد تایید گوگل اضافه شد
+  verification: {
+    google: "sLK4JJOaw4XxKgoHn42-ry2fAMpI17zKnAUyLjKI6mk",
   },
 };
 
