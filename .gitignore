@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local Script Files (Excluded)
+project_tree_with_content.py
+run_snapshot.bat
+TIVAN_ROADMAP.md
+tivan-ex_snapshot.txt
