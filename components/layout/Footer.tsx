@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Twitter, Instagram, Linkedin, Github, Mail, Phone, MapPin, ChevronLeft, ShieldCheck, Library } from "lucide-react";
+// آیکون Code2 به ایمپورت‌ها اضافه شد
+import { Twitter, Instagram, Linkedin, Github, Mail, Phone, MapPin, ChevronLeft, ShieldCheck, Library, Code2 } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -143,15 +144,43 @@ export default function Footer() {
 
         </div>
 
-        {/* بخش پایینی: کپی‌رایت */}
-        <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
-          <p>
+        {/* بخش پایینی: کپی‌رایت و امضا */}
+        <div className="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-xs">
+          
+          <p className="text-center md:text-right">
             © ۱۴۰۳ تمامی حقوق برای صرافی <strong className="text-emerald-500">تیوان اکس</strong> محفوظ است.
           </p>
-          <div className="flex gap-6">
-            <span>Secure Connection (SSL)</span>
-            <span>Version: 2.1.0 Pro</span>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="flex gap-4">
+              <span>Secure Connection (SSL)</span>
+              <span>Version: 2.1.0 Pro</span>
+            </div>
+
+            {/* --- امضای کیا دِو (KiyaDev Signature) --- */}
+            <a 
+              href="https://kiyadev.ir" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-3 bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 px-4 py-2 rounded-xl transition-all duration-300"
+            >
+              <div className="flex flex-col items-end">
+                <span className="text-[10px] text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                  طراحی و مهندسی توسط
+                </span>
+                <span className="text-xs font-bold text-slate-300 group-hover:text-emerald-400 flex items-center gap-1 transition-colors">
+                  KiyaDev Team
+                  <Code2 className="h-3 w-3 text-emerald-500 group-hover:text-emerald-400 transition-colors" />
+                </span>
+              </div>
+              
+              <div className="h-8 w-8 bg-slate-950 group-hover:bg-slate-800 rounded-lg flex items-center justify-center shadow-sm transition-colors border border-slate-800 group-hover:border-slate-700">
+                 <Code2 className="h-4 w-4 text-slate-400 group-hover:text-emerald-400 transition-colors" />
+              </div>
+            </a>
+            {/* -------------------------------------- */}
           </div>
+
         </div>
 
       </div>
