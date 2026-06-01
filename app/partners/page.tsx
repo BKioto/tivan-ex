@@ -1,5 +1,3 @@
-// C:\projects\tivan-ex\app\partners\page.tsx
-
 "use client";
 
 import { 
@@ -14,11 +12,13 @@ import {
   Bot,             // برای Mind Orbit
   Zap,             // برای Nexus Solana
   Shirt,           // برای Luxe Shop
-  LayoutDashboard  // برای Alpha System
+  LayoutDashboard, // برای Alpha System
+  Bitcoin,
+  Sparkles         // برای قلاب جادویی
 } from "lucide-react";
 import Link from "next/link";
 
-// لیست کامل همکاران و پروژه‌ها (۸ مورد)
+// لیست کامل همکاران و پروژه‌ها (۹ مورد)
 const partners = [
   // 1. KiyaDev
   {
@@ -32,7 +32,7 @@ const partners = [
     borderColor: "group-hover:border-blue-500/50",
     glow: "group-hover:shadow-blue-500/20"
   },
-  // 2. Nexus Solana (New)
+  // 2. Nexus Solana 
   {
     id: 2,
     title: "نکسوس سولانا | توکن‌ساز غیرمتمرکز",
@@ -44,7 +44,7 @@ const partners = [
     borderColor: "group-hover:border-fuchsia-500/50",
     glow: "group-hover:shadow-fuchsia-500/20"
   },
-  // 3. Mind Orbit (New)
+  // 3. Mind Orbit 
   {
     id: 3,
     title: "مایند اوربیت | هوش مصنوعی فارسی",
@@ -56,7 +56,7 @@ const partners = [
     borderColor: "group-hover:border-cyan-500/50",
     glow: "group-hover:shadow-cyan-500/20"
   },
-  // 4. Alpha System (New)
+  // 4. Alpha System 
   {
     id: 4,
     title: "آلفا سیستم | داشبورد مدیریتی",
@@ -68,7 +68,7 @@ const partners = [
     borderColor: "group-hover:border-orange-500/50",
     glow: "group-hover:shadow-orange-500/20"
   },
-  // 5. Luxe Shop (New)
+  // 5. Luxe Shop 
   {
     id: 5,
     title: "لوکس شاپ | استایل و مد",
@@ -115,11 +115,24 @@ const partners = [
     color: "text-rose-400",
     borderColor: "group-hover:border-rose-500/50",
     glow: "group-hover:shadow-rose-500/20"
+  },
+  // 9. Gholab Jadooi
+  {
+    id: 9,
+    title: "قلاب جادویی | دست‌بافت‌های فانتزی",
+    description: "فروشگاه آنلاین و تخصصی دست‌بافت‌های فانتزی، عروسک‌های آمیگورومی و دسته گل‌های کاموایی جاودان. خلق شده با ظرافت و هنر دست.",
+    features: ["فروشگاه آنلاین", "دست‌سازه", "E-Commerce"],
+    url: "https://www.gholabjadooi.ir", 
+    icon: Sparkles,
+    color: "text-pink-400",
+    borderColor: "group-hover:border-pink-500/50",
+    glow: "group-hover:shadow-pink-500/20"
   }
 ];
 
 export default function PartnersPage() {
   return (
+    // حذف کلاس font-sans برای اعمال شدن فونت تمیز پروژه
     <div className="min-h-screen bg-slate-950 pt-24 pb-10 px-4 sm:px-8 relative overflow-hidden" dir="rtl">
       
       {/* بک‌گراند نوری */}
@@ -144,56 +157,61 @@ export default function PartnersPage() {
 
         {/* گرید کارت‌ها */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-          {partners.map((partner) => (
-            <a
-              key={partner.id}
-              href={partner.url}
-              target="_blank"
-              rel="dofollow" // 👈 مهم برای سئو: انتقال اعتبار دامین
-              className={`group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${partner.borderColor} ${partner.glow}`}
-            >
-              <div>
-                {/* هدر کارت */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`rounded-2xl p-3 bg-slate-950 border border-slate-800 ${partner.color}`}>
-                    <partner.icon size={28} strokeWidth={1.5} />
+          {partners.map((partner) => {
+            // رفع ارور رندر کامپوننت آیکون در ری‌اکت
+            const Icon = partner.icon;
+
+            return (
+              <a
+                key={partner.id}
+                href={partner.url}
+                target="_blank"
+                rel="dofollow" // 👈 مهم برای سئو: انتقال اعتبار دامین
+                className={`group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl ${partner.borderColor} ${partner.glow}`}
+              >
+                <div>
+                  {/* هدر کارت */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`rounded-2xl p-3 bg-slate-950 border border-slate-800 ${partner.color}`}>
+                      <Icon size={28} strokeWidth={1.5} />
+                    </div>
+                    <div className="rounded-full bg-slate-950 border border-slate-800 px-3 py-1 flex items-center gap-1">
+                       <Briefcase size={12} className="text-slate-500" />
+                      <span className="text-[10px] text-slate-500 font-mono uppercase">Partner</span>
+                    </div>
                   </div>
-                  <div className="rounded-full bg-slate-950 border border-slate-800 px-3 py-1 flex items-center gap-1">
-                     <Briefcase size={12} className="text-slate-500" />
-                    <span className="text-[10px] text-slate-500 font-mono uppercase">Partner</span>
+
+                  <h2 className="mb-3 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    {partner.title}
+                  </h2>
+                  
+                  <p className="text-sm leading-7 text-slate-400 mb-6 text-justify opacity-80 group-hover:opacity-100 transition-opacity">
+                    {partner.description}
+                  </p>
+
+                  {/* تگ‌ها */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {partner.features.map((feature, idx) => (
+                      <span key={idx} className="text-[11px] bg-slate-950/80 text-slate-500 border border-slate-800 px-2.5 py-1 rounded-lg">
+                        {feature}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                <h2 className="mb-3 text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
-                  {partner.title}
-                </h2>
-                
-                <p className="text-sm leading-7 text-slate-400 mb-6 text-justify opacity-80 group-hover:opacity-100 transition-opacity">
-                  {partner.description}
-                </p>
-
-                {/* تگ‌ها */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {partner.features.map((feature, idx) => (
-                    <span key={idx} className="text-[11px] bg-slate-950/80 text-slate-500 border border-slate-800 px-2.5 py-1 rounded-lg">
-                      {feature}
-                    </span>
-                  ))}
+                {/* فوتر کارت */}
+                <div className="mt-auto border-t border-slate-800 pt-4 flex items-center justify-between">
+                  <span className={`text-xs font-bold transition-colors ${partner.color}`}>
+                    بازدید از وب‌سایت
+                  </span>
+                  <div className="flex items-center gap-1 text-slate-600 group-hover:text-white transition-colors">
+                    <span className="text-xs font-mono hidden sm:inline-block">{partner.url.replace('https://', '')}</span>
+                    <ExternalLink size={14} />
+                  </div>
                 </div>
-              </div>
-
-              {/* فوتر کارت */}
-              <div className="mt-auto border-t border-slate-800 pt-4 flex items-center justify-between">
-                <span className={`text-xs font-bold transition-colors ${partner.color}`}>
-                  بازدید از وب‌سایت
-                </span>
-                <div className="flex items-center gap-1 text-slate-600 group-hover:text-white transition-colors">
-                  <span className="text-xs font-mono hidden sm:inline-block">{partner.url.replace('https://', '')}</span>
-                  <ExternalLink size={14} />
-                </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>
